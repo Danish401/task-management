@@ -1,6 +1,3 @@
-
-
-
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -25,35 +22,35 @@ app.use(bodyParser.json());
 
 // Middleware: CORS
 const allowedOrigins = [
-	"http://localhost:5173",
-	"https://animated-lolly-722cb8.netlify.app",
-  ];
-  
-  app.use(
-	cors({
-	  origin: (origin, callback) => {
-		if (!origin || allowedOrigins.includes(origin)) {
-		  callback(null, true);
-		} else {
-		  callback(new Error("Not allowed by CORS"));
-		}
-	  },
-	  methods: "GET,POST,PUT,DELETE,PATCH",
-	  credentials: true,
-	})
-  );
+  "http://localhost:5173",
+  "https://taskmanagers214.netlify.app",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: "GET,POST,PUT,DELETE,PATCH",
+    credentials: true,
+  })
+);
 
 // Middleware: Session
 app.use(
-	session({
-		secret: process.env.SESSION_SECRET || "default_session_secret",
-		resave: false,
-		saveUninitialized: false,
-		cookie: {
-			secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-			maxAge: 24 * 60 * 60 * 1000, // 1 day
-		},
-	})
+  session({
+    secret: process.env.SESSION_SECRET || "default_session_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+  })
 );
 
 // Initialize Passport
@@ -69,9 +66,9 @@ app.use("/api/auth", authRoutes);
 // Error handling middleware
 app.use(errorHandler);
 app.use((req, res, next) => {
-	res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-	res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-	next();
-  });
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  next();
+});
 // Export the app for server startup
 module.exports = app;
