@@ -24,15 +24,24 @@ const app = express();
 app.use(bodyParser.json());
 
 // Middleware: CORS
-const allowedOrigins = [process.env.CLIENT_URL || "http://localhost:3000"];
-app.use(
+const allowedOrigins = [
+	"http://localhost:5173",
+	"https://animated-lolly-722cb8.netlify.app",
+  ];
+  
+  app.use(
 	cors({
-		origin: allowedOrigins,
-		methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-		credentials: true, // Allow cookies with CORS
+	  origin: (origin, callback) => {
+		if (!origin || allowedOrigins.includes(origin)) {
+		  callback(null, true);
+		} else {
+		  callback(new Error("Not allowed by CORS"));
+		}
+	  },
+	  methods: "GET,POST,PUT,DELETE,PATCH",
+	  credentials: true,
 	})
-);
+  );
 
 // Middleware: Session
 app.use(
