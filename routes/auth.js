@@ -12,10 +12,10 @@ router.get(
       user: req.user,
       token: generateToken(req.user._id),
     };
-
+const CLIENT_URL = process.env.CLIENT_URL || "https://taskmanagerda.netlify.app";
     const script = `
       <script>
-        window.opener.postMessage(${JSON.stringify(userData)}, "http://localhost:3000");
+        window.opener.postMessage(${JSON.stringify(userData)}, "${CLIENT_URL}");
         window.close();
       </script>
     `;
