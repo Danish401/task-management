@@ -12,10 +12,12 @@ router.get(
       user: req.user,
       token: generateToken(req.user._id),
     };
-const CLIENT_URL = process.env.CLIENT_URL || "https://taskmanagerda.netlify.app";
+
+    const clientURL = process.env.CLIENT_URL || "http://localhost:3000"; // Use CLIENT_URL for live or localhost
+
     const script = `
       <script>
-        window.opener.postMessage(${JSON.stringify(userData)}, "${CLIENT_URL}");
+        window.opener.postMessage(${JSON.stringify(userData)}, "${clientURL}");
         window.close();
       </script>
     `;
@@ -50,7 +52,7 @@ router.get("/logout", (req, res) => {
     if (err) {
       return res.status(500).json({ error: true, message: "Logout failed" });
     }
-    res.redirect(process.env.CLIENT_URL);
+    res.redirect(process.env.CLIENT_URL || "http://localhost:3000");
   });
 });
 
