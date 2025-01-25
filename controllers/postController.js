@@ -3,6 +3,7 @@ const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 const path = require("path");
 const jwt = require('jsonwebtoken');
+const mongoose = require("mongoose");
 exports.createPost = async (req, res) => {
   try {
     // Extract the token and verify it
@@ -57,11 +58,21 @@ exports.deletePost = async (req, res) => {
 };
 
 
+
+
+
 exports.getPostsByUserId = async (req, res) => {
-  const { userId } = req.params; // Extract userId from request parameters
+  const { userId } = req.params;
 
   try {
-    const posts = await Post.find({ user: userId });
+    if (!userId) {
+      throw new Error("User ID is missing in request parameters");
+    }
+
+    console.log("UserID: ", userId);
+
+    const posts = await Post.find({ user: new mongoose.Types.ObjectId(userId) });
+    console.log("Posts: ", posts);
 
     if (!posts.length) {
       return res.status(404).json({ error: "No posts found for this user" });
@@ -69,9 +80,11 @@ exports.getPostsByUserId = async (req, res) => {
 
     res.status(200).json(posts);
   } catch (error) {
+    console.error("Error fetching posts by user ID: ", error.message);
     res.status(500).json({ error: "Failed to fetch posts by user ID" });
   }
 };
+
 
 
 // Get all posts

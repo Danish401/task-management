@@ -1,7 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { createPost, getPosts, deletePost,getPostsByUserId} = require("../controllers/postController");
+const {
+  createPost,
+  getPosts,
+  deletePost,
+  getPostsByUserId,
+} = require("../controllers/postController");
 const { protect } = require("../middlewares/authMiddleware"); // Correct import
 
 // Multer disk storage configuration
@@ -22,8 +27,8 @@ const router = express.Router();
 router
   .route("/")
   .get(getPosts) // Get all posts
-  .post(upload.single("photo"),protect, createPost); // Create post with file upload
-router.delete("/:id",deletePost );
-router.get("/:id", getPostsByUserId);
+  .post(upload.single("photo"), protect, createPost); // Create post with file upload
+router.delete("/:id", deletePost);
+router.get("/:userId", getPostsByUserId);
 
 module.exports = router;
