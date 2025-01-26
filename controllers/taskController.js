@@ -1,5 +1,3 @@
-
-
 const Task = require("../models/taskModel");
 
 // Get all tasks
@@ -18,10 +16,8 @@ exports.getTasksByUserId = async (req, res) => {
 
   try {
     const tasks = await Task.find({ user: userId });
-    if (!tasks.length) {
-      return res.status(404).json({ error: "No tasks found for this user" });
-    }
-    res.status(200).json(tasks);
+    
+    res.status(200).json(tasks||[]);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch tasks by user ID" });
   }
@@ -122,4 +118,3 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ error: "Failed to delete task" });
   }
 };
-
