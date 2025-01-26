@@ -36,6 +36,15 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  try {
+    // Since JWT is stateless, you can send a client-side instruction to delete the token from storage
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging out" });
+  }
+};
+
 // Forgot Password (optional email-based)
 const forgotPassword = async (req, res) => {
   // Implement logic for password reset with email utility
@@ -45,4 +54,4 @@ const forgotPassword = async (req, res) => {
  
 
 
-module.exports = { registerUser, loginUser, forgotPassword };
+module.exports = { registerUser,logoutUser, loginUser, forgotPassword };
